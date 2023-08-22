@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:idenfit_my_first_app/pages/homePage.dart';
-
-import 'homePage.dart';
+import 'package:http/http.dart' as http;
 
 class splashScreen extends StatefulWidget {
   const splashScreen({super.key});
@@ -12,6 +11,7 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,7 +55,7 @@ class _splashScreenState extends State<splashScreen> {
                      ),
                    ),
                  ),
-               )
+               ),
                ],
             )
           ),

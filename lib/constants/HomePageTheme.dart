@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const String name_whatsapp = "Whatsapp";
 const String name_facebook = "Facebook";
@@ -21,7 +21,6 @@ int count_slack = 0;
 int count_zoom = 0;
 int count_discord = 0;
 
-
 const String whatsapp_icon_link= "https://cdn-icons-png.flaticon.com/512/124/124034.png";
 const String facebook_icon_link = "https://w7.pngwing.com/pngs/504/313/png-transparent-facebook-logo-social-media-badge-social-network-influencer-marketing-facebook-icon-blue-trademark-pin.png";
 const String instagram_icon_link = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1024px-Instagram_logo_2022.svg.png";
@@ -35,66 +34,51 @@ const String discord_icon_link = "https://cdn-icons-png.flaticon.com/512/4945/49
 class HomePageTheme {
 
   box(String name, String imagePath, int count){//parametre olarak renk de alabilir, bakılacak.
-    return Container(
-            padding: EdgeInsets.all(10),
-            width: 160,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              /*border: Border.all(
-                color: Colors.black,
-                width: 1,
-              )*/
-            ),
-            child: Column(
-              children: [
-                /*Container(
-                padding: EdgeInsets.all(15),
+    return InkWell(
+          child: Container(
+                padding: EdgeInsets.all(10),
+                width: 160,
+                height: 200,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                      color: Colors.black,
-                      width: 2
-                  ),
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+
                 ),
-                child: Image.network("https://cdn-icons-png.flaticon.com/512/124/124034.png",
-                  width: 70,
-                  height: 70,
-                )
-              ),*/
-                CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(imagePath),
-                    backgroundColor: Colors.transparent
-                ),
+                child: Column(
+                  children: [
 
-                Container(
-                  width: 80,
-                  height: 20,
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  width: 30,
-                  height: 20,
-                  margin: EdgeInsets.only(top: 10),
-                  color: Colors.white,
-                  child: Text(
-                    '$count',
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              ],
+                    CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(imagePath),
+                        backgroundColor: Colors.transparent
+                    ),
 
-          ),
+                    Container(
+                      width: 80,
+                      height: 20,
+                      margin: EdgeInsets.only(top: 20),
+                      child: Text(
+                        name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      width: 70,
+                      height: 20,
+                      margin: EdgeInsets.only(top: 10),
+                      color: Colors.white,
+                      child: Text(
+                        '$count',
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  ],
+
+              ),
 
 
+        ),
     );
   }
 }
