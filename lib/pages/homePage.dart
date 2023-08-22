@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:idenfit_my_first_app/constants/HomePageTheme.dart';
+import 'package:http/http.dart' as http;
+import 'package:idenfit_my_first_app/service/pokemon_service.dart';
+import '../model/pokemon_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,12 +11,54 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+/*Future<Pokemon> getPokemons(int i) async {
+  final response = await http.get(Uri.parse('https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
+  if (response.statusCode == 200) {
+    var jsonBody =  Pokemon.fromJson(json.decode(response.body), i);
+    return jsonBody;
+  } else {
+    throw Exception('Failed to load');
+  }
+}*/
+
 class _HomePageState extends State<HomePage> {
-  HomePageTheme homePageTheme = HomePageTheme();
+  PokemonService pokemonService = PokemonService();
+  List<PokemonModelData> pokemons = [];
+
+  @override
+  void initState() {
+    super.initState();
+    pokemonService.fetchPokemons().then((value) {
+      if(value != null && value.pokemon != null){
+        pokemons = value.pokemon!;
+      }else {
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      body: Container(
+
+    return  SafeArea(child: Scaffold(
+
+      body: ListView.builder(
+          itemCount: pokemons.length,
+          itemBuilder:(context, index) {
+            return ListTile(
+              title: Text("${pokemons[index].name}"),
+              subtitle: Text(" ${pokemons[index]!.height} " + " ${pokemons[index]!.weight}" ),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(pokemons[index].img!),
+              ),
+            );
+          }
+      ),
+        //ListView tasarımı değişecek.
+
+
+        //Aşağıdaki tasarım tekrar kullanılacak.
+
+        /*Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
@@ -31,123 +75,32 @@ class _HomePageState extends State<HomePage> {
                 spacing: 20,
                 runSpacing: 10,
                 children: [
-                    InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_whatsapp++;
-                      });
-                    },
-                    child: homePageTheme.box(name_whatsapp, whatsapp_icon_link, count_whatsapp),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_slack++;
-                      });
-                    },
-                    child: homePageTheme.box(name_slack, slack_icon_link, count_slack),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_linkedin++;
-                      });
-                    },
-                    child: homePageTheme.box(name_linkedin, linkedin_icon_link, count_linkedin),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_gmail++;
-                      });
-                    },
-                    child: homePageTheme.box(name_gmail, gmail_icon_link, count_gmail),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_zoom++;
-                      });
-                    },
-                    child: homePageTheme.box(name_zoom, zoom_icon_link, count_zoom),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_twitter++;
-                      });
-                    },
-                    child: homePageTheme.box(name_twitter, twitter_icon_link, count_twitter),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_instagram++;
-                      });
-                    },
-                    child: homePageTheme.box(name_instagram, instagram_icon_link, count_instagram),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_facebook++;
-                      });
-                    },
-                    child: homePageTheme.box(name_facebook, facebook_icon_link, count_facebook),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        count_discord++;
-                      });
-                    },
-                    child: homePageTheme.box(name_discord, discord_icon_link, count_discord),
-                  ),
-                ],
-              ),
+                    FutureBuilder<Pokemon>(
+                      future: getPokemons(5),
+                      builder: (context, snapshot){
+                        if(snapshot.hasData){
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                //counter burada artırılacak
+                              });
+                            },
+                            child: homePageTheme.box("${snapshot.data!.id} ", snapshot.data!.img, 0),
+                            //sadece 1 veri geliyor, sırayla gelmesi sağlanacak
+                          );
+                        }else{
+                          return const Center(
+                            child: Text("..."),
+                          );
+                        }
+                      },
+                    ),
+              ]),
             ) ,
           )
-
         )
-
-
-
-
-        /*child:Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 160,
-                height: 180,
-                margin: EdgeInsets.only(top: 50),
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1,
-                    )
-                ),
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1
-                    ),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-
-            ],
-          ),*/
-
-
         )
-
-
-    ));
+    )*/));
   }
+
 }
