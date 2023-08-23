@@ -37,7 +37,7 @@ dependencies:
   http: ^1.1.0
   dio: ^4.0.0
   flutter_riverpod: ^2.3.7
-  loadmore: ^2.0.1
+  infinite_scroll: ^1.1.1
 
 dev_dependencies:
   flutter_test:
