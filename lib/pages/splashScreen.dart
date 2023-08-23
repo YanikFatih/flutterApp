@@ -16,8 +16,8 @@ class _splashScreenState extends State<splashScreen> {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.red.shade700,
-            title: Text("Demo"),
+            backgroundColor: Colors.blue.shade500,
+            title: Text("Pokemon App"),
             leading: Icon(Icons.arrow_circle_right_rounded, size: 20, color: Colors.grey.shade300),
             leadingWidth: 30,
           ),
@@ -37,9 +37,9 @@ class _splashScreenState extends State<splashScreen> {
                    height: 60,
                    decoration: BoxDecoration(
                      borderRadius: BorderRadius.circular(50),
-                     color: Colors.red.shade500,
+                     color: Colors.blue.shade500,
                      border: Border.all(
-                       color: Colors.black,
+                       color: Colors.white,
                        width: 1,
                      )
                    ),
