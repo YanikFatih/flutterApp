@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:idenfit_my_first_app/service/pokemon_service.dart';
+import '../configs/HomePageTheme.dart';
 import '../model/pokemon_model.dart';
+import 'package:loadmore/loadmore.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,19 +11,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-/*Future<Pokemon> getPokemons(int i) async {
-  final response = await http.get(Uri.parse('https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
-  if (response.statusCode == 200) {
-    var jsonBody =  Pokemon.fromJson(json.decode(response.body), i);
-    return jsonBody;
-  } else {
-    throw Exception('Failed to load');
-  }
-}*/
-
 class _HomePageState extends State<HomePage> {
   PokemonService pokemonService = PokemonService();
   List<PokemonModelData> pokemons = [];
+  HomePageTheme homePageTheme = HomePageTheme();
 
   @override
   void initState() {
@@ -38,69 +29,40 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return  SafeArea(child: Scaffold(
-
-      body: ListView.builder(
-          itemCount: pokemons.length,
-          itemBuilder:(context, index) {
-            return ListTile(
-              title: Text("${pokemons[index].name}"),
-              subtitle: Text(" ${pokemons[index]!.height} " + " ${pokemons[index]!.weight}" ),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(pokemons[index].img!),
-              ),
-            );
-          }
-      ),
-        //ListView tasarımı değişecek.
-
-
-        //Aşağıdaki tasarım tekrar kullanılacak.
-
-        /*Container(
+      body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          color: Colors.red.shade600
+            color: Colors.blue.shade500
         ),
-        child: SingleChildScrollView(
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: EdgeInsets.all(25),
-              child: Wrap(
-                direction: Axis.horizontal,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 20,
-                runSpacing: 10,
-                children: [
-                    FutureBuilder<Pokemon>(
-                      future: getPokemons(5),
-                      builder: (context, snapshot){
-                        if(snapshot.hasData){
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                //counter burada artırılacak
-                              });
-                            },
-                            child: homePageTheme.box("${snapshot.data!.id} ", snapshot.data!.img, 0),
-                            //sadece 1 veri geliyor, sırayla gelmesi sağlanacak
-                          );
-                        }else{
-                          return const Center(
-                            child: Text("..."),
-                          );
-                        }
-                      },
-                    ),
-              ]),
-            ) ,
-          )
-        )
-        )
-    )*/));
-  }
+        child: Padding(
+          padding: const EdgeInsets.only(right: 10, left: 10),
+          child: LoadMore(
+            isFinish: true,
+            onLoadMore:() async {
+              print("Loading");
+              await Future.delayed(Duration(seconds: 0, milliseconds: 100));
+              return true;
+            },
+            child: GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(5),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: (2 / 2.4),
+              children: List.generate(pokemons.length, (index){
+                return InkWell(
+                  onTap: (){
 
+                  },
+                  child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight, 0),
+                );
+              }),
+            ),
+          )
+        ),
+      )
+    ));
+  }
 }
