@@ -50,14 +50,4 @@ class PokemonModel {
       this.pokemon = arrP;
     }
   }
-
-  }
-
-  /*factory PokemonModel.fromJson(Map<String, dynamic> json){
-    return PokemonModel(
-        id: json['id'],
-        name: json['name'],
-        img: json['img'],
-        height: json['height'],
-        weight: json['weight']);
-  }*/
+}
