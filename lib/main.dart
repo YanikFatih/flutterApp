@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:idenfit_my_first_app/pages/splashScreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:idenfit_my_first_app/pages/splashScreen.dart';
 
 void main() {
   runApp(
