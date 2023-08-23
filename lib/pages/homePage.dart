@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idenfit_my_first_app/service/pokemon_service.dart';
 import '../configs/HomePageTheme.dart';
 import '../model/pokemon_model.dart';
-import 'package:loadmore/loadmore.dart';
+import 'package:infinite_scroll/infinite_scroll.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,16 +13,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PokemonService pokemonService = PokemonService();
-  List<PokemonModelData> pokemons = [];
   HomePageTheme homePageTheme = HomePageTheme();
+  List<PokemonModelData> pokemons = [];
+  ScrollController scrollController = ScrollController();
+  int start = 0;
+  int end = 20;
+
+  /*Future<List<String>> getNextPageData(int page) async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (page == 3) return [];
+    final items = List<String>.generate(14, (i) => "");
+    return items;
+  }*/
 
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(scrollListenerF);
     pokemonService.fetchPokemons().then((value) {
       if(value != null && value.pokemon != null){
-        pokemons = value.pokemon!;
+        setState(() {
+          pokemons = value.pokemon!.sublist(start, end);
+        });
       }else {
+
       }
     });
   }
@@ -30,39 +44,46 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return  SafeArea(child: Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            color: Colors.blue.shade500
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 10, left: 10),
-          child: LoadMore(
-            isFinish: true,
-            onLoadMore:() async {
-              print("Loading");
-              await Future.delayed(Duration(seconds: 0, milliseconds: 100));
-              return true;
-            },
-            child: GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(5),
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: (2 / 2.4),
-              children: List.generate(pokemons.length, (index){
-                return InkWell(
-                  onTap: (){
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              color: Colors.blue.shade500
+          ),
+          child: Padding(
+              padding: const EdgeInsets.only(right: 10, left: 10),
+                child: GridView.count(
+                  controller: scrollController,
+                  crossAxisCount: 2,
+                  padding: EdgeInsets.all(5),
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: (2 / 2.4),
+                  children: List.generate(pokemons.length, (index){
+                    return InkWell(
+                      onTap: (){
 
+                      },
+                      child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight, 0),
+                    );
                   },
-                  child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight, 0),
-                );
-              }),
-            ),
-          )
-        ),
-      )
-    ));
+                  ),
+                ),
+              )
+          ),
+        )
+    );
+  }
+  void scrollListenerF(){
+    if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
+      print("called");
+      pokemonService.fetchPokemons().then((value) {
+        setState(() {
+          start = start;
+          end = end + 20;
+          pokemons = value.pokemon!.sublist(start, end);
+        });
+      });
+  }
   }
 }
