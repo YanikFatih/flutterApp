@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:idenfit_my_first_app/service/pokemon_service.dart';
 import '../configs/HomePageTheme.dart';
 import '../model/pokemon_model.dart';
-import 'package:infinite_scroll/infinite_scroll.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   ScrollController scrollController = ScrollController();
   int start = 0;
   int end = 20;
+  bool isLoadingMore = false;
 
   /*Future<List<String>> getNextPageData(int page) async {
     await Future.delayed(const Duration(seconds: 2));
@@ -52,7 +52,35 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Padding(
               padding: const EdgeInsets.only(right: 10, left: 10),
-                child: GridView.count(
+                child: GridView.builder(
+                    controller: scrollController,
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 2/2.5,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
+                    itemCount: isLoadingMore ? pokemons.length+1 : pokemons.length,
+                    itemBuilder: (BuildContext context, index){
+                      if(index < pokemons.length){
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+
+                            });
+                          },
+                          child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight, 0),
+                        );
+                      }else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                    ),
+
+                )
+
+                /*GridView.count(
                   controller: scrollController,
                   crossAxisCount: 2,
                   padding: EdgeInsets.all(5),
@@ -68,20 +96,23 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   ),
-                ),
+                )*/
               )
           ),
-        )
-    );
+        );
   }
   void scrollListenerF(){
     if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
       print("called");
+      setState(() {
+        isLoadingMore = true;
+      });
       pokemonService.fetchPokemons().then((value) {
         setState(() {
           start = start;
           end = end + 20;
           pokemons = value.pokemon!.sublist(start, end);
+          isLoadingMore = false;
         });
       });
   }
