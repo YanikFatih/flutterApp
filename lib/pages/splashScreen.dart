@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:idenfit_my_first_app/pages/homePage.dart';
-import 'package:http/http.dart' as http;
 
 class splashScreen extends StatefulWidget {
   const splashScreen({super.key});
