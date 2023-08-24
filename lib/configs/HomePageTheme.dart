@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class HomePageTheme {
 
-  box(String? name, String? imagePath, String? height, String? weight, int count){//parametre olarak renk de alabilir, bakılacak.
+  box(String? name, String? imagePath, String? height, String? weight){
     return InkWell(
           child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.blue.shade400,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
                 child: Column(
                   children: [
                     CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(imagePath!),
-                        backgroundColor: Colors.blue.shade100
+                        backgroundColor: Colors.green.shade50
                     ),
                     Container(
                       width: 80,
@@ -27,23 +27,16 @@ class HomePageTheme {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Container(
-                      width: 30,
-                      height: 20,
-                      margin: EdgeInsets.only(top: 10),
-                      color: Colors.grey.shade200,
-                      child: Text(
-                        '$count',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
                     Row(
                       children: [
                         Container(
                           width: 70,
                           height: 20,
                           margin: EdgeInsets.only(top: 10),
-                          color: Colors.grey.shade200,
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade200,
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
                           child: Text(
                             '$height',
                             textAlign: TextAlign.center,
@@ -54,7 +47,10 @@ class HomePageTheme {
                           width: 70,
                           height: 20,
                           margin: EdgeInsets.only(top: 10),
-                          color: Colors.grey.shade200,
+                          decoration: BoxDecoration(
+                              color: Colors.blue.shade200,
+                              borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
                           child: Text(
                             '$weight',
                             textAlign: TextAlign.center,
