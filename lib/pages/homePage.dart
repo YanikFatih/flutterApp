@@ -12,19 +12,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PokemonService pokemonService = PokemonService();
+  PokemonModel pokemonModel = PokemonModel();
   HomePageTheme homePageTheme = HomePageTheme();
   List<PokemonModelData> pokemons = [];
   ScrollController scrollController = ScrollController();
   int start = 0;
-  int end = 20;
+  int end = 10;
   bool isLoadingMore = false;
-
-  /*Future<List<String>> getNextPageData(int page) async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (page == 3) return [];
-    final items = List<String>.generate(14, (i) => "");
-    return items;
-  }*/
+  List<PokemonModelData> pokemonsAdd = [];
 
   @override
   void initState() {
@@ -35,8 +30,6 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           pokemons = value.pokemon!.sublist(start, end);
         });
-      }else {
-
       }
     });
   }
@@ -48,15 +41,15 @@ class _HomePageState extends State<HomePage> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-              color: Colors.blue.shade500
+              color: Colors.grey.shade300
           ),
           child: Padding(
-              padding: const EdgeInsets.only(right: 10, left: 10),
+              padding: const EdgeInsets.only(right: 10, left: 10, top: 3),
                 child: GridView.builder(
                     controller: scrollController,
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 200,
-                      childAspectRatio: 2/2.5,
+                      childAspectRatio: 2/2.1,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10),
                     itemCount: isLoadingMore ? pokemons.length+1 : pokemons.length,
@@ -68,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
                             });
                           },
-                          child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight, 0),
+                          child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight),
                         );
                       }else {
                         return const Center(
@@ -76,8 +69,7 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
                     },
-                    ),
-
+                  ),
                 )
 
                 /*GridView.count(
@@ -107,12 +99,15 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         isLoadingMore = true;
       });
-      pokemonService.fetchPokemons().then((value) {
-        setState(() {
-          start = start;
-          end = end + 20;
-          pokemons = value.pokemon!.sublist(start, end);
-          isLoadingMore = false;
+      Future.delayed(Duration(seconds: 1),(){
+        pokemonService.fetchPokemons().then((value) {
+          setState(() {
+            start = start + 10;
+            end = end + 10;
+            pokemonsAdd = value.pokemon!.sublist(start, end);
+            pokemons = pokemons + pokemonsAdd;
+            isLoadingMore = false;
+          });
         });
       });
   }
