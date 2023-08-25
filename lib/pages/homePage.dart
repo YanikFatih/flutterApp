@@ -20,6 +20,23 @@ class _HomePageState extends State<HomePage> {
   int end = 10;
   bool isLoadingMore = false;
   List<PokemonModelData> pokemonsAdd = [];
+  bool iconBool = false;
+  IconData iconLight = Icons.wb_sunny;
+  IconData iconDark = Icons.nights_stay;
+
+  ThemeData lightTheme = ThemeData(
+    primarySwatch: Colors.grey,
+    brightness: Brightness.light,
+    backgroundColor: Colors.grey.shade200,
+    cardColor: Colors.grey.shade300
+  );
+
+  ThemeData darkTheme = ThemeData(
+    primarySwatch: Colors.green,
+    brightness: Brightness.dark,
+    backgroundColor: Colors.black,
+    cardColor: Colors.grey.shade800
+  );
 
   @override
   void initState() {
@@ -36,15 +53,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(child: Scaffold(
+    return  MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: iconBool ? darkTheme : lightTheme,
+        home: Scaffold(
+        appBar: AppBar(
+          title:  const Text(
+              "Pokemons",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+              ),
+          ),
+          actions: [
+            IconButton(
+                onPressed: (){
+                  setState(() {
+                    iconBool = !iconBool;
+                  });
+                },
+                icon: Icon(iconBool ? iconDark : iconLight),
+            ),
+          ],
+          leading: Icon(Icons.arrow_circle_left_rounded, size: 20, color: Colors.grey.shade300),
+          leadingWidth: 30,
+        ),
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              color: Colors.grey.shade300
-          ),
+
           child: Padding(
-              padding: const EdgeInsets.only(right: 10, left: 10, top: 3),
+              padding: const EdgeInsets.only(right: 10, left: 10, top: 8),
                 child: GridView.builder(
                     controller: scrollController,
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -56,13 +94,14 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (BuildContext context, index){
                       if(index < pokemons.length){
                         return InkWell(
-                          onTap: (){
-                            setState(() {
+                              onTap: (){
+                                setState(() {
 
-                            });
-                          },
-                          child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight),
-                        );
+                                });
+                              },
+                              child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight),
+                            );
+
                       }else {
                         return const Center(
                           child: CircularProgressIndicator(),
