@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:idenfit_my_first_app/theme/darkTheme.dart';
+import 'package:idenfit_my_first_app/theme/lightTheme.dart';
 import 'package:idenfit_my_first_app/pages/splashScreen.dart';
 
 void main() {
@@ -18,10 +20,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: const splashScreen()
     );
   }
