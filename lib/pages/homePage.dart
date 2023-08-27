@@ -83,24 +83,6 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 )
-
-                /*GridView.count(
-                  controller: scrollController,
-                  crossAxisCount: 2,
-                  padding: EdgeInsets.all(5),
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: (2 / 2.4),
-                  children: List.generate(pokemons.length, (index){
-                    return InkWell(
-                      onTap: (){
-
-                      },
-                      child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight, 0),
-                    );
-                  },
-                  ),
-                )*/
               )
         );
   }
