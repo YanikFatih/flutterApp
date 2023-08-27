@@ -11,7 +11,7 @@ class PokemonModelData {
     this.name,
     this.img,
     this.height,
-    this.weight
+    this.weight,
   });
 
   PokemonModelData.fromJson(Map<String, dynamic> json){
@@ -34,6 +34,7 @@ class PokemonModelData {
 }
 
 class PokemonModel {
+  int? counter = 0;
   List<PokemonModelData>? pokemon;
 
   PokemonModel({
