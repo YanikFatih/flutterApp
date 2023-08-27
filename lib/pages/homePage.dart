@@ -24,20 +24,6 @@ class _HomePageState extends State<HomePage> {
   IconData iconLight = Icons.wb_sunny;
   IconData iconDark = Icons.nights_stay;
 
-  ThemeData lightTheme = ThemeData(
-    primarySwatch: Colors.grey,
-    brightness: Brightness.light,
-    backgroundColor: Colors.grey.shade200,
-    cardColor: Colors.grey.shade300
-  );
-
-  ThemeData darkTheme = ThemeData(
-    primarySwatch: Colors.green,
-    brightness: Brightness.dark,
-    backgroundColor: Colors.black,
-    cardColor: Colors.grey.shade800
-  );
-
   @override
   void initState() {
     super.initState();
@@ -53,34 +39,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: iconBool ? darkTheme : lightTheme,
-        home: Scaffold(
+    return  Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title:  const Text(
               "Pokemons",
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w400,
               ),
           ),
-          actions: [
-            IconButton(
-                onPressed: (){
-                  setState(() {
-                    iconBool = !iconBool;
-                  });
-                },
-                icon: Icon(iconBool ? iconDark : iconLight),
-            ),
-          ],
-          leading: Icon(Icons.arrow_circle_left_rounded, size: 20, color: Colors.grey.shade300),
+          leading: Icon(Icons.arrow_circle_left_rounded, size: 20),
           leadingWidth: 30,
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-
           child: Padding(
               padding: const EdgeInsets.only(right: 10, left: 10, top: 8),
                 child: GridView.builder(
@@ -99,7 +72,7 @@ class _HomePageState extends State<HomePage> {
 
                                 });
                               },
-                              child: homePageTheme.box(pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight),
+                              child: homePageTheme.pokeBox(context, pokemons[index].name,  pokemons[index].img, pokemons[index].height, pokemons[index].weight),
                             );
 
                       }else {
@@ -129,7 +102,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )*/
               )
-          ),
         );
   }
   void scrollListenerF(){
@@ -149,6 +121,6 @@ class _HomePageState extends State<HomePage> {
           });
         });
       });
-  }
+    }
   }
 }
