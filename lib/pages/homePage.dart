@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idenfit_my_first_app/pages/pokemonDetailPage.dart';
 import 'package:idenfit_my_first_app/service/pokemon_service.dart';
 import '../configs/HomePageTheme.dart';
 import '../model/pokemon_model.dart';
@@ -68,6 +69,7 @@ class _HomePageState extends State<HomePage> {
                       if(index < pokemons.length){
                         return InkWell(
                               onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => PokemonDetailPage(pokemonModel: pokemons[index],)));
                                 setState(() {
 
                                 });
@@ -86,6 +88,7 @@ class _HomePageState extends State<HomePage> {
               )
         );
   }
+
   void scrollListenerF(){
     if(scrollController.position.pixels == scrollController.position.maxScrollExtent){
       print("called");
