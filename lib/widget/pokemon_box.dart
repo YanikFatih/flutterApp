@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomePageTheme {
+class PokemonBoxWidget {
 
   Widget pokeBox(BuildContext context, String? name, String? imagePath, String? height, String? weight){
     return InkWell(
@@ -28,6 +28,7 @@ class HomePageTheme {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   width: 70,
